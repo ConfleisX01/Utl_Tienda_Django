@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid bg-dark py-5">
+        <div class="container text-white text-center">
+            <h1 class="fw-bold">Compra con estilo</h1>
+            <p class="text-secondary">La mejor tienda con variedad de productos</p>
+        </div>
+    </div>
+    <div class="container-fluid w-75 p-4 px-2">
+        <div class="row">
+            {% for item in lista %}
+            <div class="col-md-3 border p-0">
+                <div class="container-fluid bg-dark p-0">
+                    {% if item.producto_imagen.url is not None %}
+                    <img class="img-fluid" src="{{item.producto_imagen.url}}" style="height: 250px; width: 100%;">
+                    {% else %}
+                    <img class="img-fluid" src="https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled-1150x647.png" style="height: 250px; width: 100%;">
+                    {% endif %}
+                </div>
+                <div class="container-fluid py-2">
+                    <h5>{{item.producto_nombre}}</h5>
+                    <p class="text-secondary">Precio: <span class="text-success fw-bold">{{item.producto_precio}}$</span></p>
+                </div>
+                <div class="container text-center p-2">
+                    <a class="btn btn-primary" href="{% url 'cargar_producto' item.id %}" >Comprar</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
