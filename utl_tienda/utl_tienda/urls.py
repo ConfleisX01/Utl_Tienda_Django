@@ -8,7 +8,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('productos/', include('Productos.urls')),
-    path('compras/', include('Compras.urls'))
+    path('compras/', include('Compras.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/registro/", views.registro, name='registro'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

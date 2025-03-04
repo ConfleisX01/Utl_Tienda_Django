@@ -136,4 +136,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
+LOGIN_URL = '/accounts/login/' # URL para el login
+LOGIN_REDIRECT_URL = 'home' # Redireccion del login
+LOGOUT_REDIRECT_URL = 'home' # URL de cierre de sesion
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

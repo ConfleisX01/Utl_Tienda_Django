@@ -3,3 +3,10 @@
 * {
     font-family: "Inter", sans-serif;
 }
+
+input[type="password"] {
+    width: 100%;
+    padding: 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
