@@ -25,20 +25,36 @@
               <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'lista_productos' %}">Catalogo</a>
               </li>
+              {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link" href="#">Historial de compras</a>
+                <a class="nav-link" href="{% url 'listado_compras' user.id %}">Historial de compras</a>
               </li>
+              {% if perms.Productos.puede_administrar_productos %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'administracion_productos' %}">Administración de productos</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Historial de ventas</a>
+                <a class="nav-link" href="{% url 'lista_todas_compras' %}">Historial de ventas</a>
               </li>
+              {% endif %}
+              {% endif %}
             </ul>
           </div>
           <div class="px-2">
-            <a class="btn btn-sm btn-dark text-white" href="{% url 'login' %}"><i class="bi bi-door-open-fill"></i> Iniciar Sesion</a>
-            <a class="btn btn-sm btn-dark text-white" href="{% url 'registro' %}"><i class="bi bi-person-circle"></i> Crear Cuenta</a>
+            {% if user.is_authenticated %}
+            <div class="container-fluid d-flex align-items-center">
+              <p class="m-0">Hola <span class="text-primary fw-bold">{{user.username}}</span></p>
+              <form class="mx-2" id="logout-form" method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="btn btn-dark" type="submit"><i class="bi bi-box-arrow-left"></i> Cerrar Sesion</button>
+            </form>
+            </div>
+            {% else %}
+            <div>
+              <a class="btn btn-sm btn-dark text-white" href="{% url 'login' %}"><i class="bi bi-door-open-fill"></i> Iniciar Sesion</a>
+              <a class="btn btn-sm btn-dark text-white" href="{% url 'registro' %}"><i class="bi bi-person-circle"></i> Crear Cuenta</a>
+            </div>
+            {% endif %}
           </div>
         </div>
     </nav>

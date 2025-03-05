@@ -1,9 +1,27 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 from . import forms
 from Productos.models import Producto
 from Compras.models import Compra
+from django.contrib.auth.models import User
+
+class ListadoComprasView(TemplateView):
+    template_name = 'historial_compras.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        usuario = self.request.user
+        lista = Compra.objects.filter(comprado_por=usuario)
+        context['lista']=lista
+        return context
+    
+class ListadoTodasLasComprasView(TemplateView):
+    template_name = 'historial_compras_admin.html'
+
+    def get_context_data(self):
+        lista = Compra.objects.all()
+        return {'lista': lista}
 
 # El kwargs es parecido al contexto de algunos metodos. En este se usa para obtener la informacion de un objeto entero y llega como parametro parecido a las funciones de POST enviando el objeto esperado
 # pero en este caso recibiendolo.
@@ -31,7 +49,8 @@ class CargarProductoView(FormView):
             nombre_producto=producto.producto_nombre,
             cantidad=form.cleaned_data['cantidad'],
             precio_producto=producto.producto_precio,
-            precio_total=form.cleaned_data['cantidad'] * producto.producto_precio, # Multiplicacion simple para mostrar el total que no pidieron en el proyecto pero me da amsiedad no mostrar (No se va a mostrar jeje)
+            precio_total=form.cleaned_data['cantidad'], #producto.producto_precio, # Multiplicacion simple para mostrar el total que no pidieron en el proyecto pero me da amsiedad no mostrar (No se va a mostrar jeje)
+            comprado_por=self.request.user
         )
         compra.save()
         return super().form_valid(form)

@@ -5,7 +5,8 @@ class Producto(models.Model):
     producto_precio = models.DecimalField(max_digits=10, decimal_places=2)
     producto_imagen = models.ImageField(upload_to='imagenes/', null=True, blank=True)
 
-    class Meta:
+    class Meta: 
+        permissions = [("puede_administrar_productos", "Puede administrar productos")]
         ordering = ['producto_nombre'] # Ordenamos la lista de productos por el nombre
 
     def __str__(self):
