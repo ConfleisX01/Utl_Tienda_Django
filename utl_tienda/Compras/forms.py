@@ -1,15 +1,21 @@
 from django import forms
 from Compras.models import Compra
+from Productos.models import Producto
 
 class CompraCrearForm(forms.ModelForm):
-    imagen_url = forms.CharField(widget=forms.HiddenInput(), required=False)
-
     class Meta:
         model = Compra
-        fields = ['producto', 'nombre_producto', 'cantidad', 'precio_producto']
+        fields = ['cantidad']
         widgets = {
-            "producto": forms.HiddenInput(),
-            "nombre_producto": forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}),
             "cantidad": forms.NumberInput(attrs={"class": "form-control", "min": 1}),
-            "precio_producto": forms.TextInput(attrs={"class": "form-control", "readonly": "readonly"}),
         }
+
+    def save(self, id, user):
+        producto = Producto.objects.filter(id=id).first()
+        compra = Compra(
+            producto=producto, 
+            cantidad=self.cleaned_data['cantidad'],
+            comprado_por = user
+        )
+        compra.save()
+        

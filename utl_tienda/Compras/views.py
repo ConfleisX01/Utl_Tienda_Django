@@ -5,7 +5,6 @@ from . import forms
 from Productos.models import Producto
 from Compras.models import Compra
 from django.contrib.auth.models import User
-from Compras.forms import CompraCrearForm
 
 class ListadoComprasView(TemplateView):
     template_name = 'historial_compras.html'
@@ -28,7 +27,6 @@ class ProductoSeleccionadoView(FormView):
     template_name = 'compra_productos.html'
     form_class = forms.CompraCrearForm
     success_url = reverse_lazy('lista_productos')
-    idProducto = 0
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -36,7 +34,15 @@ class ProductoSeleccionadoView(FormView):
         producto = get_object_or_404(Producto, id=id)
         kwargs['instance'] = producto
         return kwargs
+    
+    def get_kwargs_data(self):
+        kwargs = super().get_kwargs_data()
+        id = self.kwargs.get('id')
+        producto = get_object_or_404(Producto, id=id)
+        kwargs['instance'] = Compra(producto=producto, cliente =self.request.user)
+        return kwargs
+
 
     def form_valid(self, form):
-        form.save()
+        form.save(self.kwargs.get('id'), user = self.request.user)
         return super().form_valid(form)

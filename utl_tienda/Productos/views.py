@@ -42,5 +42,5 @@ class EditarProductoView(FormView):
         return kwargs
     
     def form_valid(self, form):
-        form.save(self.kwargs.get('id'))
+        form.save()
         return super().form_valid(form)
