@@ -17,3 +17,8 @@ input[type="text"] {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+.bg-index {
+    background-image: url('../img/pexels-pixabay-264636.jpg');
+    background-size: cover;
+}

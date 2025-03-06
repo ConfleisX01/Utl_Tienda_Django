@@ -8,7 +8,7 @@
           <div class="container text-center">
             {% csrf_token %}
                 <img
-                  src="{{form.imagen_url.value}}"
+                  src="{{form.instance.producto_imagen.url}}"
                   class="img-fluid"
                   alt="image desc"
                   style="width: 400px;"
@@ -23,4 +23,4 @@
         </div>
     </form>
 </div>
-{% endblock content %}
+{% endblock content %}  
